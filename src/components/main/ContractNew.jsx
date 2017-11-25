@@ -16,17 +16,14 @@ const options = {
   mode: 'javascript'
 }
 
-class ContractView extends React.Component {
+class ContractNew extends React.Component {
 
   constructor(props) {
     super(props)
-    const { location, data } = props
-    const index = location.pathname.split('/')[4]
-
-    const contract = data.contracts.find((el) => el.id === parseInt(index))
     
     this.state = {
-      ...contract
+      name: '',
+      code: ''
     }
   }
 
@@ -39,12 +36,8 @@ class ContractView extends React.Component {
   }
 
   save = () => {
-    const { contractActions, location } = this.props
-    contractActions.saveContract(this.state, location.pathname.split('/')[2])
-  }
-
-  run = () => {
-    this.props.contractActions.executeContract(this.state.id)
+    const { location, contractActions } = this.props
+    contractActions.createContract(this.state, location.pathname.split('/')[2])
   }
 
   render () {
@@ -68,7 +61,7 @@ class ContractView extends React.Component {
           <CodeMirror style={{ border: 1 }} value={code} onChange={this.codeChange} options={options} />
           <Row type="flex" justify="space-between">
             <Col><Button type="primary" icon="code" style={{ marginTop: 10 }} onClick={this.save}>Save and deploy</Button></Col>
-            <Col><Button icon="right-square" style={{ marginTop: 10 }} onClick={this.run}>Run</Button></Col>
+            <Col><Button icon="right-square" style={{ marginTop: 10 }} onClick={this.save}>Run</Button></Col>
           </Row>
         </div>
       </Content>
@@ -79,4 +72,4 @@ class ContractView extends React.Component {
 export default connect(
   (state) => ({ data: state.contracts }),
   (dispatch) => ({ contractActions: bindActionCreators(contractActions, dispatch) })
-)(ContractView)
+)(ContractNew)

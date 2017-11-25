@@ -2,7 +2,8 @@ import {
   LOAD_USER,
   LOAD_CONTRACTS,
   LOAD_ACCOUNTS,
-  SAVE_CONTRACT
+  SAVE_CONTRACT,
+  ADD_CONTRACT
 } from '../actions/types'
 
 export const initialState = {
@@ -30,6 +31,15 @@ const contracts = (state = initialState, action) => {
         }
       })
       return { ...state, contracts }
+    }
+    case ADD_CONTRACT: {
+      return {
+        ...state,
+        contracts: [
+          ...state.contracts,
+          action.payload
+        ]
+      }
     }
     default: {
       return state

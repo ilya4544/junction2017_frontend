@@ -6,7 +6,9 @@ import { bindActionCreators } from 'redux'
 import * as contractActions from '../redux/actions/contractActions'
 
 import Dashboard from './main/Dashboard'
+import Account from './main/Account'
 import ContractView from './main/ContractView'
+import ContractNew from './main/ContractNew'
 
 import 'antd/dist/antd.css'
 
@@ -20,7 +22,7 @@ class App extends React.Component {
 
   componentWillMount() {
     this.props.contractActions.loadUser()
-    this.props.contractActions.loadContracts()
+    this.props.contractActions.loadAccounts()
   }
 
   onCollapse = (collapsed) => {
@@ -29,44 +31,22 @@ class App extends React.Component {
 
   render() {
     const { data } = this.props
+    const { collapsed } = this.state
 
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
-          collapsed={this.state.collapsed}
+          collapsed={collapsed}
           onCollapse={this.onCollapse}
         >
-          <div className="logo">{data.user && data.user.name}</div>
+          <div className="logo">{data.user && data.user.name && collapsed ? data.user.name.split(' ')[0][0] + data.user.name.split(' ')[1][0] : data.user && data.user.name}</div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Link to="/dashboard">
-                <Icon type="pie-chart" />
+                <Icon type="wallet" />
                 <span>Dashboard</span>
               </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="desktop" />
-              <span>Option 2</span>
-            </Menu.Item>
-            <SubMenu
-              key="sub1"
-              title={<span><Icon type="user" /><span>User</span></span>}
-            >
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub2"
-              title={<span><Icon type="team" /><span>Team</span></span>}
-            >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="9">
-              <Icon type="file" />
-              <span>File</span>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -74,7 +54,9 @@ class App extends React.Component {
           <Header style={{ background: '#fff', padding: 0 }} />
 
           <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/dashboard/:id" component={ContractView} />
+          <Route exact path="/dashboard/:id" component={Account} />
+          <Route exact path="/dashboard/:id/newcontract" component={ContractNew} />
+          <Route exact path="/dashboard/:accountId/contracts/:id" component={ContractView} />
 
           <Footer style={{ textAlign: 'center' }}>
             This.Bank ©2017 Created with ❤️ at Junction
