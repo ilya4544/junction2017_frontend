@@ -1,0 +1,4 @@
+export const LOAD_USER = 'LOAD_USER'
+export const LOAD_CONTRACTS = 'LOAD_CONTRACTS'
+export const LOAD_ACCOUNTS = 'LOAD_ACCOUNTS'
+export const SAVE_CONTRACT = 'SAVE_CONTRACT'
